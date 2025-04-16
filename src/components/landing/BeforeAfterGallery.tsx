@@ -1,40 +1,29 @@
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
-const beforeAfterPairsData = [
+const beforeAfterPairs = [
   {
     id: 1,
     title: "צילום מנת פסטה",
-    beforeKey: "before-pasta",
-    afterKey: "after-pasta",
+    before: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070",
   },
   {
     id: 2,
     title: "צילום קינוח",
-    beforeKey: "before-dessert",
-    afterKey: "after-dessert",
+    before: "https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=1964",
+    after: "https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=1978",
   },
   {
     id: 3,
     title: "צילום חלל המסעדה",
-    beforeKey: "before-interior",
-    afterKey: "after-interior",
+    before: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070",
   },
 ];
 
 const BeforeAfterGallery = () => {
-  const beforeAfterPairs = beforeAfterPairsData.map(pair => {
-    const { data: beforeImage } = useWebsiteImage('before_after', pair.beforeKey);
-    const { data: afterImage } = useWebsiteImage('before_after', pair.afterKey);
-    return {
-      ...pair,
-      before: beforeImage?.url,
-      after: afterImage?.url,
-    };
-  });
-
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
