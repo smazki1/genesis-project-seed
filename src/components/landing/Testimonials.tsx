@@ -1,39 +1,41 @@
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { QuoteIcon } from "lucide-react";
+import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
-const testimonials = [
+const testimonialsData = [
   {
     id: 1,
     quote: "התמונות החדשות הכפילו את מספר ההזמנות של המנות החדשות שלנו. הלקוחות מגיעים ומבקשים ספציפית את המנות שראו באינסטגרם.",
     name: "דניאל כהן",
     restaurant: "מסעדת לבנטין",
-    image: "/images/testimonial-1.jpg",
+    imageKey: "testimonial-1",
   },
   {
     id: 2,
     quote: "חסכנו אלפי שקלים על צילומי מזון, והתוצאות מדהימות. כל פעם שאנחנו מוסיפים מנה חדשה לתפריט, אנחנו פשוט מזמינים תמונה נוספת.",
     name: "מיכל לוי",
     restaurant: "קפה ברקת",
-    image: "/images/testimonial-2.jpg",
+    imageKey: "testimonial-2",
   },
   {
     id: 3,
     quote: "השירות המקצועי והמהיר חסך לנו המון זמן וכאב ראש. היינו צריכים לחדש את כל התפריט תוך שבועיים, וקיבלנו תמונות מושלמות לכל המנות בזמן שיא.",
     name: "אלון ברק",
     restaurant: "מסעדת נופך",
-    image: "/images/testimonial-3.jpg",
+    imageKey: "testimonial-3",
   },
 ];
 
 const Testimonials = () => {
+  const testimonials = testimonialsData.map(testimonial => {
+    const { data: image } = useWebsiteImage('testimonials', testimonial.imageKey);
+    return {
+      ...testimonial,
+      image: image?.url,
+    };
+  });
+
   return (
     <section className="py-20 bg-gray-50" id="testimonials">
       <div className="container mx-auto px-4">

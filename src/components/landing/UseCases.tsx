@@ -1,25 +1,34 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FileImage, Instagram, Building } from "lucide-react";
+import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
-const useCases = [{
+const useCasesData = [{
   title: "תמונות לתפריט דיגיטלי ומודפס",
   description: "תמונות איכותיות שגורמות לתפריט שלכם לבלוט ומעוררות תיאבון אצל הלקוחות",
-  image: "/images/menu-images.jpg",
+  imageKey: "menu-images",
   icon: FileImage
 }, {
   title: "תוכן לרשתות חברתיות",
   description: "תמונות מותאמות לפורמטים השונים ברשתות החברתיות, כולל אפשרות ליצור תמונות עונתיות",
-  image: "/images/social-media.jpg",
+  imageKey: "social-media",
   icon: Instagram
 }, {
   title: "עיצוב וויזואליזציה של חלל המסעדה",
   description: "דמיינו את המסעדה שלכם בעיצוב חדש או לאירוע מיוחד לפני שאתם משקיעים בשינויים",
-  image: "/images/restaurant-interior.jpg",
+  imageKey: "restaurant-interior",
   icon: Building
 }];
 
 const UseCases = () => {
+  const useCases = useCasesData.map(useCase => {
+    const { data: image } = useWebsiteImage('use_cases', useCase.imageKey);
+    return {
+      ...useCase,
+      image: image?.url
+    };
+  });
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50" id="use-cases">
       <div className="container mx-auto px-4 max-w-6xl">
