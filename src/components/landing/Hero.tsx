@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const Hero = () => {
   const scrollToContactForm = () => {
@@ -11,12 +12,14 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image with blur effect */}
+      {/* Background image with gradient overlay */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm" 
+        className={cn(
+          "absolute inset-0 bg-cover bg-center bg-no-repeat",
+          "after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#8B1E3F]/80 after:to-[#F3752B]/50"
+        )}
         style={{ 
-          backgroundImage: "url('/images/restaurant-bg.jpg')", 
-          filter: "brightness(0.5)" 
+          backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070')", 
         }}
       ></div>
       

@@ -1,94 +1,70 @@
 
-import { useState } from "react";
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
 
-const examples = [
+const beforeAfterPairs = [
   {
     id: 1,
-    title: "מנת פסטה ביתית",
-    before: "/images/before-pasta.jpg",
-    after: "/images/after-pasta.jpg",
-    description: "מתיאור טקסטואלי בלבד ליצירה מרהיבה של מנת פסטה ברוטב עגבניות",
+    title: "צילום מנת פסטה",
+    before: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070",
   },
   {
     id: 2,
-    title: "קינוח שוקולד",
-    before: "/images/before-dessert.jpg",
-    after: "/images/after-dessert.jpg",
-    description: "מתמונה בסיסית מטלפון נייד לתמונה מקצועית של קינוח שוקולד",
+    title: "צילום קינוח",
+    before: "https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=1964",
+    after: "https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=1978",
   },
   {
     id: 3,
-    title: "חלל מסעדה",
-    before: "/images/before-interior.jpg",
-    after: "/images/after-interior.jpg",
-    description: "משרטוט פשוט של מבנה המסעדה להדמיה מקצועית של חלל האירוח",
+    title: "צילום חלל המסעדה",
+    before: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070",
   },
 ];
 
 const BeforeAfterGallery = () => {
-  const [sliderValues, setSliderValues] = useState<Record<number, number[]>>(
-    examples.reduce((acc, example) => ({ ...acc, [example.id]: [50] }), {})
-  );
-
-  const handleSliderChange = (id: number, value: number[]) => {
-    setSliderValues(prev => ({ ...prev, [id]: value }));
-  };
-
   return (
-    <section className="py-20 bg-white" id="gallery">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="font-heebo text-3xl md:text-4xl font-bold text-[#333333] text-center mb-12">
-          לפני ואחרי
+        <h2 className="font-heebo text-3xl md:text-4xl font-bold text-center mb-12">
+          מהתיאור שלך ליצירה מרהיבה במהירות שיא
         </h2>
         
-        <p className="font-openSans text-center text-xl mb-12">
-          מהתיאור שלך ליצירה מרהיבה במהירות שיא
-        </p>
-
-        <Carousel className="w-full max-w-4xl mx-auto">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full max-w-5xl mx-auto"
+        >
           <CarouselContent>
-            {examples.map((example) => (
-              <CarouselItem key={example.id} className="md:basis-full">
+            {beforeAfterPairs.map((pair) => (
+              <CarouselItem key={pair.id} className="md:basis-1/2 lg:basis-1/3">
                 <Card className="border-none shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="p-6">
-                      <h3 className="font-heebo text-2xl font-bold mb-4 text-[#8B1E3F]">
-                        {example.title}
-                      </h3>
-                      <p className="font-openSans mb-4">{example.description}</p>
-                    </div>
-                    
-                    <div className="relative h-[400px] overflow-hidden">
-                      <div 
-                        className="absolute top-0 left-0 w-full h-full bg-cover bg-center" 
-                        style={{ backgroundImage: `url(${example.after})` }}
-                      />
-                      <div 
-                        className="absolute top-0 left-0 h-full bg-cover bg-center" 
-                        style={{ 
-                          backgroundImage: `url(${example.before})`,
-                          width: `${sliderValues[example.id]?.[0] || 50}%` 
-                        }}
-                      />
-                      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                        <div className="w-3/4 px-4">
-                          <Slider
-                            value={sliderValues[example.id] || [50]}
-                            min={0}
-                            max={100}
-                            step={1}
-                            onValueChange={(value) => handleSliderChange(example.id, value)}
-                            className="z-10"
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      <h3 className="font-heebo text-xl font-bold text-center">{pair.title}</h3>
+                      <div className="space-y-2">
+                        <div className="relative aspect-[4/3]">
+                          <img
+                            src={pair.before}
+                            alt={`לפני - ${pair.title}`}
+                            className="rounded-lg object-cover w-full h-full"
                           />
+                          <span className="absolute top-2 right-2 bg-white/80 px-2 py-1 rounded text-sm">
+                            לפני
+                          </span>
+                        </div>
+                        <div className="relative aspect-[4/3]">
+                          <img
+                            src={pair.after}
+                            alt={`אחרי - ${pair.title}`}
+                            className="rounded-lg object-cover w-full h-full"
+                          />
+                          <span className="absolute top-2 right-2 bg-[#F3752B]/80 text-white px-2 py-1 rounded text-sm">
+                            אחרי
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -97,10 +73,8 @@ const BeforeAfterGallery = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex justify-center mt-8">
-            <CarouselPrevious className="relative static translate-y-0 mr-2" />
-            <CarouselNext className="relative static translate-y-0 ml-2" />
-          </div>
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
     </section>
