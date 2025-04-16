@@ -43,12 +43,12 @@ const UseCases = () => {
         </h2>
         
         <Tabs defaultValue="menus" className="w-full max-w-5xl mx-auto">
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 w-full mb-8 bg-white/60 backdrop-blur-sm p-1 rounded-lg">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 w-full mb-8 bg-white/60 backdrop-blur-sm p-1 rounded-lg shadow-sm border border-gray-100">
             {useCases.map((useCase) => (
               <TabsTrigger 
                 key={useCase.id} 
                 value={useCase.id} 
-                className="flex flex-col py-4 gap-3 data-[state=active]:bg-[#F3752B] data-[state=active]:text-white"
+                className="flex flex-col py-4 gap-3 data-[state=active]:bg-[#F3752B] data-[state=active]:text-white transition-all duration-200"
               >
                 <useCase.icon className="w-6 h-6" />
                 <span className="text-sm md:text-base text-center">{useCase.title}</span>
@@ -57,15 +57,15 @@ const UseCases = () => {
           </TabsList>
           
           {useCases.map((useCase) => (
-            <TabsContent key={useCase.id} value={useCase.id}>
-              <Card className="border-none shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+            <TabsContent key={useCase.id} value={useCase.id} className="focus-visible:outline-none">
+              <Card className="border-none shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl rounded-xl">
                 <CardContent className="p-0">
                   <div className="flex flex-col md:flex-row">
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 h-64 md:h-80">
                       <img 
                         src={useCase.image} 
                         alt={useCase.title} 
-                        className="w-full h-60 md:h-full object-cover"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center bg-white">
@@ -79,9 +79,9 @@ const UseCases = () => {
                         {useCase.description}
                       </p>
                       {useCase.id === "menus" && (
-                        <div className="mt-4 bg-[#F3752B]/10 p-4 rounded-lg">
-                          <p className="text-[#F3752B] font-semibold">
-                            ↗️ מגדיל מכירות בעד 30%
+                        <div className="mt-6 bg-[#F3752B]/10 p-4 rounded-lg border-r-4 border-[#F3752B] animate-fade-in">
+                          <p className="text-[#F3752B] font-semibold flex items-center">
+                            <span className="ml-2 text-lg">↗️</span> מגדיל מכירות בעד 30%
                           </p>
                         </div>
                       )}
