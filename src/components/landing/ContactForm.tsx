@@ -81,10 +81,10 @@ const ContactForm = () => {
     <section className="py-20 bg-gray-50" id="contact-form">
       <div className="container mx-auto px-4">
         <h2 className="font-heebo text-3xl md:text-4xl font-bold text-[#333333] text-center mb-4">
-          רוצים לשדרג את התמונות של המסעדה שלכם?
+          קבל הצעה מותאמת למסעדה שלך
         </h2>
         <p className="font-openSans text-lg text-center mb-12 max-w-2xl mx-auto">
-          השאירו פרטים ונחזור אליכם עם הצעה מותאמת אישית
+          השאירו פרטים ונחזור אליכם תוך 24 שעות עם דוגמה ראשונית בחינם
         </p>
         
         <Card className="max-w-2xl mx-auto border-none shadow-lg">
@@ -200,7 +200,7 @@ const ContactForm = () => {
                     שולח...
                   </>
                 ) : (
-                  "קבל הצעה מותאמת אישית ללא התחייבות"
+                  "קבל דוגמה בחינם והצעת מחיר"
                 )}
               </Button>
             </form>

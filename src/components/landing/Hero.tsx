@@ -32,7 +32,7 @@ const Hero = () => {
           onClick={scrollToContactForm}
           className="bg-[#F3752B] hover:bg-[#F3752B]/90 text-white px-8 py-6 text-lg rounded-md"
         >
-          צור קשר לקבלת דוגמאות מותאמות למסעדה שלך
+          קבל דוגמה מותאמת בחינם למסעדה שלך
         </Button>
       </div>
     </section>
