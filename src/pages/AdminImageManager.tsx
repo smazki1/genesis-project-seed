@@ -1,15 +1,17 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useWebsiteImageManager } from "@/hooks/useWebsiteImageManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, ImageIcon } from "lucide-react";
+import { Upload, ImageIcon, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 
 const AdminImageManager = () => {
   const { 
     isLoading, 
     images, 
+    lastUpload,
     fetchAllImages, 
     uploadImage, 
     getImageMappings 
@@ -18,14 +20,24 @@ const AdminImageManager = () => {
   const [activeTab, setActiveTab] = useState("hero");
   const imageMappings = getImageMappings();
   
+  // Initial load of images
   useEffect(() => {
     fetchAllImages();
   }, []);
+  
+  // Force refresh when needed
+  const handleRefresh = useCallback(() => {
+    fetchAllImages();
+    toast.success("Images refreshed");
+  }, [fetchAllImages]);
   
   const handleFileUpload = async (section: string, description: string, e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       await uploadImage(section as any, description as any, file);
+      
+      // Clear the file input so the same file can be selected again if needed
+      e.target.value = '';
     }
   };
   
@@ -33,7 +45,19 @@ const AdminImageManager = () => {
   
   return (
     <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-6">Website Image Manager</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Website Image Manager</h1>
+        <Button 
+          variant="outline" 
+          onClick={handleRefresh} 
+          disabled={isLoading}
+          className="flex items-center gap-2"
+        >
+          <RefreshCw className="w-4 h-4" /> 
+          Refresh Images
+        </Button>
+      </div>
+      
       <p className="text-gray-600 mb-8">
         Upload and manage images for different sections of your website.
         Images uploaded here will appear on the website.
@@ -60,6 +84,14 @@ const AdminImageManager = () => {
                     img.description === mapping.description
                   );
                   
+                  // Get the current timestamp for cache busting
+                  const timestamp = Date.now();
+                  
+                  // Use the image path with a timestamp to prevent caching
+                  const imageSrc = image 
+                    ? `${image.image_path}?t=${timestamp}` 
+                    : image?.fallback_path || '';
+                  
                   return (
                     <Card key={`${mapping.section}-${mapping.description}`}>
                       <CardHeader>
@@ -70,11 +102,12 @@ const AdminImageManager = () => {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="relative aspect-video bg-gray-100 rounded overflow-hidden">
-                          {image ? (
+                          {imageSrc ? (
                             <img 
-                              src={image.image_path || image.fallback_path} 
+                              src={imageSrc} 
                               alt={mapping.displayName}
                               className="w-full h-full object-cover"
+                              key={`img-${lastUpload}-${mapping.section}-${mapping.description}`}
                             />
                           ) : (
                             <div className="flex items-center justify-center w-full h-full">

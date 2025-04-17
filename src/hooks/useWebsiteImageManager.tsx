@@ -35,6 +35,7 @@ type ImageMetadata = {
 export const useWebsiteImageManager = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<ImageMetadata[]>([]);
+  const [lastUpload, setLastUpload] = useState<number>(0);
   
   // Get all images metadata from the database
   const fetchAllImages = async () => {
@@ -49,6 +50,7 @@ export const useWebsiteImageManager = () => {
         throw error;
       }
       
+      console.log("Fetched images:", data);
       setImages(data as ImageMetadata[]);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -90,13 +92,15 @@ export const useWebsiteImageManager = () => {
         throw findError || new Error(`No image found with section "${section}" and description "${description}"`);
       }
       
+      console.log("Existing image found:", existingImage);
+      
       // Upload the image to storage
       const filePath = `website-images/${section}-${description}-${Date.now()}.${file.name.split('.').pop()}`;
       
       const { error: uploadError, data: uploadData } = await supabase.storage
         .from('website-images')
         .upload(filePath, file, {
-          cacheControl: '3600',
+          cacheControl: '0', // Disable cache to ensure new images are always fetched
           upsert: false,
         });
       
@@ -104,10 +108,14 @@ export const useWebsiteImageManager = () => {
         throw uploadError;
       }
       
+      console.log("Image uploaded successfully:", uploadData);
+      
       // Get the public URL of the uploaded image
       const { data: { publicUrl } } = supabase.storage
         .from('website-images')
         .getPublicUrl(filePath);
+      
+      console.log("Public URL generated:", publicUrl);
       
       // Update the image reference in the database
       const { error: updateError } = await supabase
@@ -122,7 +130,11 @@ export const useWebsiteImageManager = () => {
         throw updateError;
       }
       
+      console.log("Database updated with new image path");
       toast.success("Image uploaded successfully");
+      
+      // Mark the upload time to trigger refreshes
+      setLastUpload(Date.now());
       
       // Refresh the images list
       await fetchAllImages();
@@ -164,6 +176,7 @@ export const useWebsiteImageManager = () => {
   return {
     isLoading,
     images,
+    lastUpload,
     fetchAllImages,
     uploadImage,
     getImageMappings
