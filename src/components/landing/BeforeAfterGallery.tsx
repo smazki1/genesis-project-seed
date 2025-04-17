@@ -3,37 +3,37 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "@/components/ui/card";
 import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
-const BeforeAfterGallery = () => {
-  // Fetch images using our hook
-  const beforePasta = useWebsiteImage("before_after", "before-pasta", "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=2070");
-  const afterPasta = useWebsiteImage("before_after", "after-pasta", "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070");
-  
-  const beforeDessert = useWebsiteImage("before_after", "before-dessert", "https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=1964");
-  const afterDessert = useWebsiteImage("before_after", "after-dessert", "https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=1978");
-  
-  const beforeInterior = useWebsiteImage("before_after", "before-interior", "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070");
-  const afterInterior = useWebsiteImage("before_after", "after-interior", "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070");
+const beforeAfterPairsData = [
+  {
+    id: 1,
+    title: "צילום מנת פסטה",
+    beforeKey: "before-pasta",
+    afterKey: "after-pasta",
+  },
+  {
+    id: 2,
+    title: "צילום קינוח",
+    beforeKey: "before-dessert",
+    afterKey: "after-dessert",
+  },
+  {
+    id: 3,
+    title: "צילום חלל המסעדה",
+    beforeKey: "before-interior",
+    afterKey: "after-interior",
+  },
+];
 
-  const beforeAfterPairs = [
-    {
-      id: 1,
-      title: "צילום מנת פסטה",
-      before: beforePasta.imageUrl,
-      after: afterPasta.imageUrl,
-    },
-    {
-      id: 2,
-      title: "צילום קינוח",
-      before: beforeDessert.imageUrl,
-      after: afterDessert.imageUrl,
-    },
-    {
-      id: 3,
-      title: "צילום חלל המסעדה",
-      before: beforeInterior.imageUrl,
-      after: afterInterior.imageUrl,
-    },
-  ];
+const BeforeAfterGallery = () => {
+  const beforeAfterPairs = beforeAfterPairsData.map(pair => {
+    const { data: beforeImage } = useWebsiteImage('before_after', pair.beforeKey);
+    const { data: afterImage } = useWebsiteImage('before_after', pair.afterKey);
+    return {
+      ...pair,
+      before: beforeImage?.url,
+      after: afterImage?.url,
+    };
+  });
 
   return (
     <section className="py-20 bg-white">

@@ -3,27 +3,31 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FileImage, Instagram, Building } from "lucide-react";
 import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
-const UseCases = () => {
-  const menuImage = useWebsiteImage("use_cases", "menu-images", "/images/menu-images.jpg");
-  const socialMediaImage = useWebsiteImage("use_cases", "social-media", "/images/social-media.jpg");
-  const interiorImage = useWebsiteImage("use_cases", "restaurant-interior", "/images/restaurant-interior.jpg");
+const useCasesData = [{
+  title: "תמונות לתפריט דיגיטלי ומודפס",
+  description: "תמונות איכותיות שגורמות לתפריט שלכם לבלוט ומעוררות תיאבון אצל הלקוחות",
+  imageKey: "menu-images",
+  icon: FileImage
+}, {
+  title: "תוכן לרשתות חברתיות",
+  description: "תמונות מותאמות לפורמטים השונים ברשתות החברתיות, כולל אפשרות ליצור תמונות עונתיות",
+  imageKey: "social-media",
+  icon: Instagram
+}, {
+  title: "עיצוב וויזואליזציה של חלל המסעדה",
+  description: "דמיינו את המסעדה שלכם בעיצוב חדש או לאירוע מיוחד לפני שאתם משקיעים בשינויים",
+  imageKey: "restaurant-interior",
+  icon: Building
+}];
 
-  const useCases = [{
-    title: "תמונות לתפריט דיגיטלי ומודפס",
-    description: "תמונות איכותיות שגורמות לתפריט שלכם לבלוט ומעוררות תיאבון אצל הלקוחות",
-    image: menuImage.imageUrl,
-    icon: FileImage
-  }, {
-    title: "תוכן לרשתות חברתיות",
-    description: "תמונות מותאמות לפורמטים השונים ברשתות החברתיות, כולל אפשרות ליצור תמונות עונתיות",
-    image: socialMediaImage.imageUrl,
-    icon: Instagram
-  }, {
-    title: "עיצוב וויזואליזציה של חלל המסעדה",
-    description: "דמיינו את המסעדה שלכם בעיצוב חדש או לאירוע מיוחד לפני שאתם משקיעים בשינויים",
-    image: interiorImage.imageUrl,
-    icon: Building
-  }];
+const UseCases = () => {
+  const useCases = useCasesData.map(useCase => {
+    const { data: image } = useWebsiteImage('use_cases', useCase.imageKey);
+    return {
+      ...useCase,
+      image: image?.url
+    };
+  });
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50" id="use-cases">
