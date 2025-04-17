@@ -52,7 +52,9 @@ export const useWebsiteImageManager = () => {
       setImages(data as ImageMetadata[]);
     } catch (error) {
       console.error("Error fetching images:", error);
-      toast.error("Failed to load images");
+      toast.error("Failed to load images", {
+        description: error instanceof Error ? error.message : "Unknown error"
+      });
     } finally {
       setIsLoading(false);
     }
@@ -67,21 +69,29 @@ export const useWebsiteImageManager = () => {
     setIsLoading(true);
     
     try {
+      // Validate file type and size
+      if (!file.type.startsWith('image/')) {
+        throw new Error("Please upload a valid image file");
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        throw new Error("File size should be less than 5MB");
+      }
+      
       // First check if we have this image in our database
-      const { data: existingImage } = await supabase
+      const { data: existingImage, error: findError } = await supabase
         .from('website_images')
         .select('*')
         .eq('section', section)
         .eq('description', description)
         .single();
         
-      if (!existingImage) {
-        toast.error(`No image found with section "${section}" and description "${description}"`);
-        return;
+      if (findError || !existingImage) {
+        throw findError || new Error(`No image found with section "${section}" and description "${description}"`);
       }
       
       // Upload the image to storage
-      const filePath = `website-images/${section}-${description}-${Date.now()}`;
+      const filePath = `website-images/${section}-${description}-${Date.now()}.${file.name.split('.').pop()}`;
       
       const { error: uploadError, data: uploadData } = await supabase.storage
         .from('website-images')
@@ -94,11 +104,16 @@ export const useWebsiteImageManager = () => {
         throw uploadError;
       }
       
+      // Get the public URL of the uploaded image
+      const { data: { publicUrl } } = supabase.storage
+        .from('website-images')
+        .getPublicUrl(filePath);
+      
       // Update the image reference in the database
       const { error: updateError } = await supabase
         .from('website_images')
         .update({ 
-          image_path: `website-images/${uploadData.path}`,
+          image_path: publicUrl,
           updated_at: new Date().toISOString()
         })
         .eq('id', existingImage.id);
@@ -107,13 +122,15 @@ export const useWebsiteImageManager = () => {
         throw updateError;
       }
       
-      toast.success("Image updated successfully");
+      toast.success("Image uploaded successfully");
       
       // Refresh the images list
       await fetchAllImages();
     } catch (error) {
       console.error("Error uploading image:", error);
-      toast.error("Failed to upload image");
+      toast.error("Failed to upload image", {
+        description: error instanceof Error ? error.message : "Unknown error"
+      });
     } finally {
       setIsLoading(false);
     }
