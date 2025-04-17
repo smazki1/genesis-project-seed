@@ -1,8 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
 const Hero = () => {
+  const { imageUrl } = useWebsiteImage("hero", "main", "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070");
+
   const scrollToContactForm = () => {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
@@ -19,7 +22,7 @@ const Hero = () => {
           "after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#8B1E3F]/80 after:to-[#F3752B]/50"
         )}
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070')", 
+          backgroundImage: `url('${imageUrl}')`, 
         }}
       ></div>
       
