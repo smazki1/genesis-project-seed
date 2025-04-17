@@ -53,66 +53,68 @@ const AdminImageManager = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {imageMappings
                 .filter(mapping => mapping.section === section)
-                .map(mapping => (
-                  <Card key={`${mapping.section}-${mapping.description}`}>
-                    <CardHeader>
-                      <CardTitle>{mapping.displayName}</CardTitle>
-                      <CardDescription>
-                        Section: {mapping.section}, ID: {mapping.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="relative aspect-video bg-gray-100 rounded overflow-hidden">
-                        {images.find(img => 
-                          img.section === mapping.section && 
-                          img.description === mapping.description
-                        ) ? (
-                          <img 
-                            src={images.find(img => 
-                              img.section === mapping.section && 
-                              img.description === mapping.description
-                            )?.fallback_path} 
-                            alt={mapping.displayName}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex items-center justify-center w-full h-full">
-                            <ImageIcon className="w-12 h-12 text-gray-300" />
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-500">
-                          {isLoading ? "Loading..." : "Upload a new image"}
-                        </div>
-                        <div>
-                          <label htmlFor={`file-${mapping.section}-${mapping.description}`}>
-                            <div className="cursor-pointer">
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                disabled={isLoading}
-                                onClick={() => document.getElementById(`file-${mapping.section}-${mapping.description}`)?.click()}
-                              >
-                                <Upload className="w-4 h-4 mr-2" /> 
-                                Upload
-                              </Button>
+                .map(mapping => {
+                  // Find the corresponding image in our images array
+                  const image = images.find(img => 
+                    img.section === mapping.section && 
+                    img.description === mapping.description
+                  );
+                  
+                  return (
+                    <Card key={`${mapping.section}-${mapping.description}`}>
+                      <CardHeader>
+                        <CardTitle>{mapping.displayName}</CardTitle>
+                        <CardDescription>
+                          Section: {mapping.section}, ID: {mapping.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="relative aspect-video bg-gray-100 rounded overflow-hidden">
+                          {image ? (
+                            <img 
+                              src={image.image_path || image.fallback_path} 
+                              alt={mapping.displayName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                              <ImageIcon className="w-12 h-12 text-gray-300" />
                             </div>
-                          </label>
-                          <input 
-                            type="file" 
-                            id={`file-${mapping.section}-${mapping.description}`}
-                            accept="image/*" 
-                            className="hidden" 
-                            onChange={(e) => handleFileUpload(mapping.section, mapping.description, e)}
-                            disabled={isLoading}
-                          />
+                          )}
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-gray-500">
+                            {isLoading ? "Loading..." : "Upload a new image"}
+                          </div>
+                          <div>
+                            <label htmlFor={`file-${mapping.section}-${mapping.description}`}>
+                              <div className="cursor-pointer">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  disabled={isLoading}
+                                  onClick={() => document.getElementById(`file-${mapping.section}-${mapping.description}`)?.click()}
+                                >
+                                  <Upload className="w-4 h-4 mr-2" /> 
+                                  Upload
+                                </Button>
+                              </div>
+                            </label>
+                            <input 
+                              type="file" 
+                              id={`file-${mapping.section}-${mapping.description}`}
+                              accept="image/*" 
+                              className="hidden" 
+                              onChange={(e) => handleFileUpload(mapping.section, mapping.description, e)}
+                              disabled={isLoading}
+                            />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
             </div>
           </TabsContent>
         ))}

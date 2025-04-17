@@ -24,22 +24,13 @@ export function useWebsiteImage(section: string, description: string, fallbackUr
           return;
         }
         
-        // If the image path starts with 'website-images/', try to get the URL from storage
-        if (data.image_path.startsWith('website-images/')) {
-          const { data: storageData, error: storageError } = await supabase.storage
-            .from('website-images')
-            .createSignedUrl(data.image_path.replace('website-images/', ''), 3600);
-          
-          if (storageError || !storageData) {
-            console.error("Error fetching image from storage:", storageError);
-            // If there's an error with storage, use the fallback URL
-            setImageUrl(data.fallback_path || fallbackUrl);
-          } else {
-            setImageUrl(storageData.signedUrl);
-          }
-        } else {
-          // If it's an external URL, use it directly
+        // Since we're now storing the full public URL in the database,
+        // we can use it directly without additional processing
+        if (data.image_path) {
           setImageUrl(data.image_path);
+        } else {
+          // Fallback to the provided fallback path or the one from the database
+          setImageUrl(data.fallback_path || fallbackUrl);
         }
       } catch (error) {
         console.error("Error in useWebsiteImage:", error);
