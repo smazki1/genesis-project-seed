@@ -1,11 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useWebsiteImage } from "@/hooks/useWebsiteImage";
 
 const Hero = () => {
-  const { data: heroImage } = useWebsiteImage('hero', 'main');
-  
   const scrollToContactForm = () => {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
@@ -15,13 +12,14 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image with gradient overlay */}
       <div 
         className={cn(
           "absolute inset-0 bg-cover bg-center bg-no-repeat",
           "after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#8B1E3F]/80 after:to-[#F3752B]/50"
         )}
         style={{ 
-          backgroundImage: `url('${heroImage?.url}')`, 
+          backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070')", 
         }}
       ></div>
       
