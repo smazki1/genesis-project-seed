@@ -1,3 +1,4 @@
+
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -5,20 +6,20 @@ const beforeAfterPairs = [
   {
     id: 1,
     title: "צילום מנת פסטה",
-    before: "/images/fruits - before2.jpg",
-    after: "/images/24718040-0.jpg",
+    before: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070",
   },
   {
     id: 2,
     title: "צילום קינוח",
-    before: "https://github.com/smazki1/genesis-project-seed/blob/main/public/images/492137535_122128159040643046_6162885444587868048_n.jpg?raw=true",
-    after: "/images/24717845-0 (1).jpg",
+    before: "https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=1964",
+    after: "https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=1978",
   },
   {
     id: 3,
     title: "צילום חלל המסעדה",
-    before: "/images/2ebf6f23-b8ac-458b-b1a9-0591f75b72d5.jpeg",
-    after: "/images/3.jpeg",
+    before: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070",
+    after: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070",
   },
 ];
 
