@@ -9,209 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      additional_details: {
+      website_images: {
         Row: {
-          brand_colors: string | null
-          branding_materials_url: string | null
-          client_id: string
-          created_at: string
-          general_notes: string | null
-          visual_style: string | null
-        }
-        Insert: {
-          brand_colors?: string | null
-          branding_materials_url?: string | null
-          client_id: string
-          created_at?: string
-          general_notes?: string | null
-          visual_style?: string | null
-        }
-        Update: {
-          brand_colors?: string | null
-          branding_materials_url?: string | null
-          client_id?: string
-          created_at?: string
-          general_notes?: string | null
-          visual_style?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "additional_details_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: true
-            referencedRelation: "clients"
-            referencedColumns: ["client_id"]
-          },
-        ]
-      }
-      clients: {
-        Row: {
-          client_id: string
-          contact_name: string
-          created_at: string
-          email: string
-          phone: string
-          restaurant_name: string
-        }
-        Insert: {
-          client_id?: string
-          contact_name: string
-          created_at?: string
-          email: string
-          phone: string
-          restaurant_name: string
-        }
-        Update: {
-          client_id?: string
-          contact_name?: string
-          created_at?: string
-          email?: string
-          phone?: string
-          restaurant_name?: string
-        }
-        Relationships: []
-      }
-      cocktails: {
-        Row: {
-          client_id: string
-          cocktail_id: string
           created_at: string
           description: string | null
-          ingredients: string | null
-          name: string
-          notes: string | null
-          reference_image_urls: string[] | null
-        }
-        Insert: {
-          client_id: string
-          cocktail_id?: string
-          created_at?: string
-          description?: string | null
-          ingredients?: string | null
-          name: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Update: {
-          client_id?: string
-          cocktail_id?: string
-          created_at?: string
-          description?: string | null
-          ingredients?: string | null
-          name?: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cocktails_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["client_id"]
-          },
-        ]
-      }
-      dishes: {
-        Row: {
-          client_id: string
-          created_at: string
-          description: string | null
-          dish_id: string
-          ingredients: string | null
-          name: string
-          notes: string | null
-          reference_image_urls: string[] | null
-        }
-        Insert: {
-          client_id: string
-          created_at?: string
-          description?: string | null
-          dish_id?: string
-          ingredients?: string | null
-          name: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Update: {
-          client_id?: string
-          created_at?: string
-          description?: string | null
-          dish_id?: string
-          ingredients?: string | null
-          name?: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "dishes_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["client_id"]
-          },
-        ]
-      }
-      drinks: {
-        Row: {
-          client_id: string
-          created_at: string
-          description: string | null
-          drink_id: string
-          ingredients: string | null
-          name: string
-          notes: string | null
-          reference_image_urls: string[] | null
-        }
-        Insert: {
-          client_id: string
-          created_at?: string
-          description?: string | null
-          drink_id?: string
-          ingredients?: string | null
-          name: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Update: {
-          client_id?: string
-          created_at?: string
-          description?: string | null
-          drink_id?: string
-          ingredients?: string | null
-          name?: string
-          notes?: string | null
-          reference_image_urls?: string[] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "drinks_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["client_id"]
-          },
-        ]
-      }
-      visual_styles: {
-        Row: {
-          created_at: string
-          image_url: string
-          style_id: string
-          style_name: string
+          fallback_path: string
+          id: string
+          image_path: string
+          section: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
-          image_url: string
-          style_id?: string
-          style_name: string
+          description?: string | null
+          fallback_path: string
+          id?: string
+          image_path: string
+          section: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
-          image_url?: string
-          style_id?: string
-          style_name?: string
+          description?: string | null
+          fallback_path?: string
+          id?: string
+          image_path?: string
+          section?: string
+          updated_at?: string
         }
         Relationships: []
       }
